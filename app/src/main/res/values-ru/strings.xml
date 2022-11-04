@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HearthstoneDeckViewer</string>
+    <string name="hunter">Охотник</string>
+    <string name="mage">Маг</string>
+    <string name="warrior">Воин</string>
+    <string name="druid">Друид</string>
+    <string name="rogue">Разбойник</string>
+    <string name="shaman">Шаман</string>
+    <string name="demonhunter">Охотник на демонов</string>
+    <string name="priest">Жрец</string>
+    <string name="paladin">Паладин</string>
+    <string name="warlock">Чернокнижник</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="hunter_green">#016E01</color>
+    <color name="druid_brown">#703606</color>
+    <color name="mage_sky_blue">#0092AB</color>
+    <color name="paladin_yellow">#AA8F00</color>
+    <color name="priest_silver">#C7C19F</color>
+    <color name="rogue_grey">#4C4D48</color>
+    <color name="shaman_blue">#0070DE</color>
+    <color name="warlock_purple">#7624AD</color>
+    <color name="warrior_tan">#8E1002</color>
+    <color name="demonhunter_green">#014701</color>
+    
+    <color name="card_list_background">#292E3C</color>
+</resources>
