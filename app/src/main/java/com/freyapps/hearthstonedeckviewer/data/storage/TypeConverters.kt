@@ -7,7 +7,6 @@ import com.freyapps.hearthstonedeckviewer.data.models.remote.ClassX
 import com.freyapps.hearthstonedeckviewer.data.models.remote.Hero
 import com.freyapps.hearthstonedeckviewer.data.models.remote.HeroPower
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 inline fun <reified T> Gson.fromJson(json: String) =
@@ -43,14 +42,14 @@ class ClassConverter {
 
 class CardConverter {
     @TypeConverter
-    fun fromCards(cards: List<Card>): String = Gson().toJson(cards)
+    fun fromCards(cards: Map<Card, Int>): String = Gson().toJson(cards)
 
     @TypeConverter
-    fun toCards(json: String): List<Card> {
+    fun toCards(json: String): Map<Card, Int> {
         return try {
-            Gson().fromJson<List<Card>>(json)
+            Gson().fromJson<Map<Card, Int>>(json)
         } catch (e: Exception) {
-            listOf()
+            mapOf()
         }
     }
 }

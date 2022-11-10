@@ -41,31 +41,27 @@ fun DeckScreen(viewModel: DeckViewModel) {
         scaffoldState = scaffoldState
     ) {
         if (isLoading) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator()
             }
         } else {
-            val cards = viewModel.deck?.cards?.sortedBy {
-                it.manaCost
-            } ?: listOf()
+            val cards = viewModel.deck?.cards ?: mapOf()
             if (cards.isEmpty()) {
-                LazyColumn {
-                    items(cards) { card ->
-                        TextCardRow(card = card)
-                    }
+                Column {
+                    Text(text = "Card list is empty")
                 }
             } else {
-                val cardsGroupedByCost = cards.groupBy { it.manaCost }
-                cardsGroupedByCost.forEach { (qty, list) ->
-                    LazyColumn {
-                        items(list) { card ->
-                            TextCardRow(card = card, qty = qty)
-                        }
+                val cardsSortedByCost = cards.keys.sortedBy { it.manaCost }
+                LazyColumn {
+                    items(cardsSortedByCost) { card ->
+                        TextCardRow(card = card, qty = cards[card] ?: 9999)
                     }
+
                 }
-
             }
-
         }
     }
 
@@ -80,28 +76,36 @@ fun DeckScreen(viewModel: DeckViewModel) {
 }
 
 @Composable
-fun TextCardRow(card: Card, qty: Int = 1) {
+fun TextCardRow(card: Card, qty: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(30.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        Row(
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                modifier = Modifier
+                    .width(50.dp)
+                    .wrapContentSize(Alignment.Center),
+                text = card.manaCost.toString(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h6
+            )
+            Text(
+                text = card.name.toString(),
+                style = MaterialTheme.typography.h6
+            )
+        }
         Text(
             modifier = Modifier
                 .width(50.dp)
                 .wrapContentSize(Alignment.Center),
-            text = card.manaCost.toString(),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h6
-        )
-        Text(
-            text = card.name.toString(),
-            style = MaterialTheme.typography.h6
-        )
-        Text(
             text = qty.toString(),
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h6
         )
     }
@@ -236,7 +240,8 @@ fun PreviewCardRow() {
             "flavor text", 30, 1, null, null, null,
             10, 2, null, "Mock Card", 1, null,
             3, "mock text on card"
-        )
+        ),
+        1
     )
 }
 

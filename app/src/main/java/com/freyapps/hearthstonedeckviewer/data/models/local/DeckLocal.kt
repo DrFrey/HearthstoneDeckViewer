@@ -11,7 +11,7 @@ import com.freyapps.hearthstonedeckviewer.data.models.remote.HeroPower
 data class DeckLocal(
     val name: String,
     val cardCount: Int,
-    val cards: List<Card>,
+    val cards: Map<Card, Int>,
     val classX: ClassX?,
     @PrimaryKey val code: String,
     val format: String,
