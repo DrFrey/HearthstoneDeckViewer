@@ -1,5 +1,6 @@
 package com.freyapps.hearthstonedeckviewer.data.storage
 
+import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
@@ -18,4 +19,10 @@ class DataSourceLocal @Inject constructor(private val db: AppDatabase) {
 
     suspend fun getDeckById(code: String): DeckLocal? =
         db.deckDao().getDeckById(code)
+
+    suspend fun insertBlizzardCard(card: CardLocal) =
+        db.cardDao().insertCard(card)
+
+    suspend fun getCardBySlug(slug: String): CardLocal? =
+        db.cardDao().getCardBySlug(slug)
 }

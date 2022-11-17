@@ -2,10 +2,7 @@ package com.freyapps.hearthstonedeckviewer.data.storage
 
 import androidx.room.TypeConverter
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
-import com.freyapps.hearthstonedeckviewer.data.models.remote.Card
-import com.freyapps.hearthstonedeckviewer.data.models.remote.ClassX
-import com.freyapps.hearthstonedeckviewer.data.models.remote.Hero
-import com.freyapps.hearthstonedeckviewer.data.models.remote.HeroPower
+import com.freyapps.hearthstonedeckviewer.data.models.remote.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -76,6 +73,34 @@ class HeroConverter {
     fun toHero(json: String): Hero? {
         return try {
             Gson().fromJson<Hero>(json)
+        } catch (e: Exception) {
+            null
+        }
+    }
+}
+
+class ListOfIntsConverter {
+    @TypeConverter
+    fun fromListOfInts(list: List<Int>): String = Gson().toJson(list)
+
+    @TypeConverter
+    fun toListOfInts(json: String): List<Int>? {
+        return try {
+            Gson().fromJson<List<Int>>(json)
+        } catch (e: Exception) {
+            null
+        }
+    }
+}
+
+class DuelsConverter {
+    @TypeConverter
+    fun fromDuels(duels: Duels): String = Gson().toJson(duels)
+
+    @TypeConverter
+    fun toDuels(json: String): Duels? {
+        return try {
+            Gson().fromJson<Duels>(json)
         } catch (e: Exception) {
             null
         }

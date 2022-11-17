@@ -1,9 +1,11 @@
 package com.freyapps.hearthstonedeckviewer.data.remote
 
 import com.freyapps.hearthstonedeckviewer.common.request
+import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
+import com.freyapps.hearthstonedeckviewer.data.models.mappers.BlizzardCardMapper
 import com.freyapps.hearthstonedeckviewer.data.models.mappers.BlizzardDeckMapper
 import com.freyapps.hearthstonedeckviewer.data.models.mappers.TopDecksParser
 import com.freyapps.hearthstonedeckviewer.data.models.remote.AccessDataRemote
@@ -16,7 +18,8 @@ class DataSourceRemote @Inject constructor(
     private val blizzardAuthService: BlizzardAuthService,
     private val blizzardApiService: BlizzardApiService,
     private val topDecksParser: TopDecksParser,
-    private val blizzardDeckMapper: BlizzardDeckMapper
+    private val blizzardDeckMapper: BlizzardDeckMapper,
+    private val blizzardCardMapper: BlizzardCardMapper
 ) {
     suspend fun getTopDecksByClass(
         hearthstoneClass: HearthstoneClass,
@@ -38,5 +41,12 @@ class DataSourceRemote @Inject constructor(
             blizzardApiService.getDeck(accessToken = token, code = code)
         }.map {
             blizzardDeckMapper.mapBlizzardDeckToLocal(it)
+        }
+
+    suspend fun getBlizzardCardBySlug(slug: String, token: String): Result<CardLocal> =
+        request {
+            blizzardApiService.getCard(slug = slug, accessToken = token)
+        }.map {
+            blizzardCardMapper.mapBlizzardCardToLocal(it)
         }
 }

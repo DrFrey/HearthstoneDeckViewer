@@ -42,13 +42,13 @@ data class Card(
     @SerializedName("minionTypeId")
     val minionTypeId: Int?,
     @SerializedName("multiClassIds")
-    val multiClassIds: List<Any>?,
+    val multiClassIds: List<Int>?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("rarityId")
     val rarityId: Int?,
     @SerializedName("slug")
-    val slug: String?,
+    val slug: String,
     @SerializedName("spellSchoolId")
     val spellSchoolId: Int?,
     @SerializedName("text")

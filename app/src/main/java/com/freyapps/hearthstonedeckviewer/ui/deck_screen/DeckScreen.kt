@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -59,7 +60,6 @@ fun DeckScreen(viewModel: DeckViewModel) {
                     items(cardsSortedByCost) { card ->
                         TextCardRow(card = card, qty = cards[card] ?: 9999)
                     }
-
                 }
             }
         }
@@ -80,7 +80,10 @@ fun TextCardRow(card: Card, qty: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp),
+            .height(30.dp)
+            .clickable {
+
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -238,7 +241,7 @@ fun PreviewCardRow() {
             1, "artist name", 10, 1, 1,
             null, 1, 1, "", null, 30,
             "flavor text", 30, 1, null, null, null,
-            10, 2, null, "Mock Card", 1, null,
+            10, 2, null, "Mock Card", 1, "",
             3, "mock text on card"
         ),
         1

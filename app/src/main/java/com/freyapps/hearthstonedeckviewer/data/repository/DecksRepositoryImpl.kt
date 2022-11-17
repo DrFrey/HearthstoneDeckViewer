@@ -1,6 +1,7 @@
 package com.freyapps.hearthstonedeckviewer.data.repository
 
 import android.util.Log
+import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.remote.AccessDataRemote
@@ -66,6 +67,27 @@ class DecksRepositoryImpl(
                 if (result is Result.Success) {
                     result.data?.let {
                         dataSourceLocal.insertBlizzardDeck(it)
+                    }
+                }
+                emit(result)
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getBlizzardCardBySlug(
+        slug: String,
+        token: String
+    ): Flow<Result<CardLocal>> {
+        return flow {
+            val localResult = dataSourceLocal.getCardBySlug(slug)
+            if (localResult != null) {
+                emit(Result.Success(localResult))
+            } else {
+                emit(Result.Loading)
+                val result = dataSourceRemote.getBlizzardCardBySlug(slug, token)
+                if (result is Result.Success) {
+                    result.data?.let {
+                        dataSourceLocal.insertBlizzardCard(it)
                     }
                 }
                 emit(result)
