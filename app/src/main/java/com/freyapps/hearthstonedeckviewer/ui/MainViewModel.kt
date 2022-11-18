@@ -69,7 +69,15 @@ class MainViewModel @Inject constructor(
     fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass) {
         viewModelScope.launch {
             isLoading = true
-            decksRepository.refreshTopDecksByClass(hearthstoneClass)
+            decksRepository.refreshTopDecksByClass(hearthstoneClass).collect { result ->
+                when(result) {
+                    is Result.Error -> {
+                        error = result.message.toString()
+                    }
+                    is Result.Success -> {}
+                    is Result.Loading -> {}
+                }
+            }
             isLoading = false
         }
     }
