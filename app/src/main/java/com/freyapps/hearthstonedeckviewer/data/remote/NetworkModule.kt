@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val MANACOST_BASE_URL = "https://hs-manacost.ru/"
+    private const val MANACOST_BASE_URL = "http://hs-manacost.ru/"
     private const val BLIZZARD_BASE_URL = "https://us.api.blizzard.com/hearthstone/"
     private const val BLIZZARD_AUTH_URL = "https://eu.battle.net/"
 
