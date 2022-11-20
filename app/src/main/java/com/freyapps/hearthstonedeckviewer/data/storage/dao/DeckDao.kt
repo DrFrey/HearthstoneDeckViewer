@@ -3,6 +3,7 @@ package com.freyapps.hearthstonedeckviewer.data.storage.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.repository.Result
@@ -20,7 +21,7 @@ interface DeckDao {
     @Query("DELETE FROM DeckLocal")
     suspend fun deleteAll()
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDeck(deck: DeckLocal)
 
     @Delete

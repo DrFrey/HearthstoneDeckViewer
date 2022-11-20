@@ -25,7 +25,7 @@ class HearthstoneClassConverter {
 
 class ClassConverter {
     @TypeConverter
-    fun fromClassX(classX: ClassX): String = Gson().toJson(classX)
+    fun fromClassX(classX: ClassX?): String = Gson().toJson(classX)
 
     @TypeConverter
     fun toClassX(json: String): ClassX? {
@@ -53,7 +53,7 @@ class CardConverter {
 
 class HeroPowerConverter {
     @TypeConverter
-    fun fromHeroPower(heroPower: HeroPower): String = Gson().toJson(heroPower)
+    fun fromHeroPower(heroPower: HeroPower?): String = Gson().toJson(heroPower)
 
     @TypeConverter
     fun toHeroPower(json: String): HeroPower? {
@@ -67,7 +67,7 @@ class HeroPowerConverter {
 
 class HeroConverter {
     @TypeConverter
-    fun fromHero(hero: Hero): String = Gson().toJson(hero)
+    fun fromHero(hero: Hero?): String = Gson().toJson(hero)
 
     @TypeConverter
     fun toHero(json: String): Hero? {
@@ -95,7 +95,7 @@ class ListOfIntsConverter {
 
 class DuelsConverter {
     @TypeConverter
-    fun fromDuels(duels: Duels): String = Gson().toJson(duels)
+    fun fromDuels(duels: Duels?): String = Gson().toJson(duels)
 
     @TypeConverter
     fun toDuels(json: String): Duels? {
