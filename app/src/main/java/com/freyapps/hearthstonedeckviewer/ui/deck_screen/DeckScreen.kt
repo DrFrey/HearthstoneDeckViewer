@@ -1,6 +1,7 @@
 package com.freyapps.hearthstonedeckviewer.ui.deck_screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,14 +31,11 @@ fun DeckScreen(viewModel: DeckViewModel) {
 
     val showCardDialog = remember { mutableStateOf(false) }
     val cardToShow = viewModel.card
-    val isCardLoading = viewModel.isCardLoading
 
     if (showCardDialog.value) {
-        CardDialog(
-            card = cardToShow,
-            isLoading = isCardLoading,
-            setShowDialog = { showCardDialog.value = it }
-        )
+        CardDialog(card = cardToShow) {
+            showCardDialog.value = it
+        }
     }
 
     Scaffold(
@@ -52,6 +50,7 @@ fun DeckScreen(viewModel: DeckViewModel) {
             }
         } else {
             val cards = viewModel.deck?.cards ?: mapOf()
+            Log.d("DeckScreen", "cards: $cards")
             if (cards.isEmpty()) {
                 Column {
                     Text(text = "Card list is empty")

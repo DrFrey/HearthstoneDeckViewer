@@ -13,7 +13,6 @@ import com.freyapps.hearthstonedeckviewer.data.repository.DecksRepository
 import com.freyapps.hearthstonedeckviewer.data.repository.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,11 +36,8 @@ class DeckViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
-    var isCardLoading by mutableStateOf(false)
-        private set
-
     fun getDeck(code: String) {
-        Log.d("DeckViewModel", "deck code - $code")
+        Log.d(TAG, "deck code - $code")
         if (!isTokenExpired()) {
             viewModelScope.launch {
                 decksRepository.getBlizzardDeckByCode(
@@ -90,7 +86,7 @@ class DeckViewModel @Inject constructor(
     }
 
     fun getCard(slug: String) {
-        Log.d("DeckViewModel", "card slug - $slug")
+        Log.d(TAG, "card slug - $slug")
         if (!isTokenExpired()) {
             viewModelScope.launch {
                 decksRepository.getBlizzardCardBySlug(
@@ -99,15 +95,12 @@ class DeckViewModel @Inject constructor(
                 ).collect { result ->
                     when (result) {
                         is Result.Success -> {
-                            isCardLoading = false
                             card = result.data
                         }
                         is Result.Error -> {
-                            isCardLoading = false
                             error = result.message.toString()
                         }
                         is Result.Loading -> {
-                            isCardLoading = true
                         }
                     }
                 }
