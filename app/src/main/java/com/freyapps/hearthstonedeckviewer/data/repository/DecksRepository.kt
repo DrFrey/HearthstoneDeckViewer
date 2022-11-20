@@ -9,8 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DecksRepository {
 
-    suspend fun retrieveAllTopDecks()
-    suspend fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass): Flow<Result<List<ManacostDeckInfo>>>
+    suspend fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass): Flow<Result<List<ManacostDeckInfo>>?>
     fun localTopDecksByClass(hearthstoneClass: HearthstoneClass): Flow<List<ManacostDeckInfo>>
 
     suspend fun refreshBlizzardAccessToken(): Flow<Result<AccessDataRemote>>

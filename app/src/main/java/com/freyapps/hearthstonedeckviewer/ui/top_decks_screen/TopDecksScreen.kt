@@ -276,29 +276,40 @@ private fun DeckList(
     decks: State<List<ManacostDeckInfo>>,
     onClick: (String) -> Unit
 ) {
-    val groupedItems = decks.value.groupBy { it.date }
-    val today = System.currentTimeMillis().convertLongToFormattedDate(DAY_MONTH)
-    LazyColumn {
-        groupedItems.forEach { (day, list) ->
-            stickyHeader {
-                Text(
-                    text =
-                    if (today == day.convertLongToFormattedDate(DAY_MONTH))
-                        stringResource(id = R.string.today)
-                    else
-                        day.convertLongToFormattedDate(DAY_MONTH),
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.LightGray)
-                        .padding(8.dp)
+    if (decks.value.isEmpty()) {
+        LazyColumn {
+            items(10) {
+                DeckRow(
+                    deck = ManacostDeckInfo(HearthstoneClass.UNKNOWN, "", "", 0, 0, 0),
+                    onClick = {}
                 )
             }
-            items(list) { deck ->
-                DeckRow(
-                    deck = deck,
-                    onClick = onClick
-                )
+        }
+    } else {
+        val groupedItems = decks.value.groupBy { it.date }
+        val today = System.currentTimeMillis().convertLongToFormattedDate(DAY_MONTH)
+        LazyColumn {
+            groupedItems.forEach { (day, list) ->
+                stickyHeader {
+                    Text(
+                        text =
+                        if (today == day.convertLongToFormattedDate(DAY_MONTH))
+                            stringResource(id = R.string.today)
+                        else
+                            day.convertLongToFormattedDate(DAY_MONTH),
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.LightGray)
+                            .padding(8.dp)
+                    )
+                }
+                items(list) { deck ->
+                    DeckRow(
+                        deck = deck,
+                        onClick = onClick
+                    )
+                }
             }
         }
     }
