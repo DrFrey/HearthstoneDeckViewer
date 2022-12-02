@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.freyapps.hearthstonedeckviewer.common.shimmerBackground
+import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.remote.Card
 import com.freyapps.hearthstonedeckviewer.ui.DeckViewModel
 import com.freyapps.hearthstonedeckviewer.ui.card_dialog.CardDialog
@@ -42,27 +44,20 @@ fun DeckScreen(viewModel: DeckViewModel) {
         scaffoldState = scaffoldState
     ) {
         if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+            LazyColumn {
+                items(30) {
+                    PlaceholderCardRow()
+                }
             }
         } else {
             val cards = viewModel.deck?.cards ?: mapOf()
             Log.d("DeckScreen", "cards: $cards")
-            if (cards.isEmpty()) {
-                Column {
-                    Text(text = "Card list is empty")
-                }
-            } else {
-                val cardsSortedByCost = cards.keys.sortedBy { it.manaCost }
-                LazyColumn {
-                    items(cardsSortedByCost) { card ->
-                        TextCardRow(card = card, qty = cards[card] ?: 9999) {
-                            viewModel.getCard(it)
-                            showCardDialog.value = true
-                        }
+            val cardsSortedByCost = cards.keys.sortedBy { it.manaCost }
+            LazyColumn {
+                items(cardsSortedByCost) { card ->
+                    TextCardRow(card = card, qty = cards[card] ?: 9999) {
+                        viewModel.getCard(it)
+                        showCardDialog.value = true
                     }
                 }
             }
@@ -116,6 +111,47 @@ fun TextCardRow(
                 .width(50.dp)
                 .wrapContentSize(Alignment.Center),
             text = qty.toString(),
+            textAlign = TextAlign.Center,
+            style = Typography.body1
+        )
+    }
+    Divider()
+}
+
+@Composable
+fun PlaceholderCardRow() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .shimmerBackground(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                modifier = Modifier
+                    .width(50.dp)
+                    .wrapContentSize(Alignment.Center)
+                    .shimmerBackground(),
+                text = "",
+                textAlign = TextAlign.Center,
+                style = Typography.body1
+            )
+            Text(
+                modifier = Modifier.shimmerBackground(),
+                text = "",
+                style = Typography.body1
+            )
+        }
+        Text(
+            modifier = Modifier
+                .width(50.dp)
+                .wrapContentSize(Alignment.Center)
+                .shimmerBackground(),
+            text = "",
             textAlign = TextAlign.Center,
             style = Typography.body1
         )

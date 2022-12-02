@@ -27,6 +27,7 @@ import com.freyapps.hearthstonedeckviewer.ui.MainViewModel
 import com.freyapps.hearthstonedeckviewer.R
 import com.freyapps.hearthstonedeckviewer.common.DAY_MONTH
 import com.freyapps.hearthstonedeckviewer.common.convertLongToFormattedDate
+import com.freyapps.hearthstonedeckviewer.common.shimmerBackground
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
 import com.freyapps.hearthstonedeckviewer.ui.theme.HearthstoneDeckViewerTheme
@@ -193,6 +194,7 @@ fun Tabs(pagerState: PagerState, tabList: List<TabItem>) {
 
 @Composable
 fun DeckRow(
+    modifier: Modifier = Modifier,
     deck: ManacostDeckInfo,
     onClick: (String) -> Unit
 ) {
@@ -217,7 +219,7 @@ fun DeckRow(
             thickness = 1.dp
         )
         Text(
-            modifier = Modifier
+            modifier = modifier
                 .constrainAs(name) {
                     start.linkTo(parent.start, horizontalMargin)
                     end.linkTo(likesRow.start, horizontalMargin)
@@ -238,13 +240,13 @@ fun DeckRow(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                modifier = Modifier
+                modifier = modifier
                     .width(40.dp),
                 text = deck.likes.toString(),
                 textAlign = TextAlign.Center
             )
             Text(
-                modifier = Modifier
+                modifier = modifier
                     .width(40.dp),
                 text = deck.dislikes.toString(),
                 textAlign = TextAlign.Center
@@ -258,6 +260,7 @@ fun DeckRow(
 fun DeckRowPreview() {
     HearthstoneDeckViewerTheme {
         DeckRow(
+            Modifier,
             ManacostDeckInfo(
                 HearthstoneClass.HUNTER,
                 "a very very very very very very very very very very long name",
@@ -278,8 +281,9 @@ private fun DeckList(
 ) {
     if (decks.value.isEmpty()) {
         LazyColumn {
-            items(10) {
+            items(20) {
                 DeckRow(
+                    modifier = Modifier.shimmerBackground(),
                     deck = ManacostDeckInfo(HearthstoneClass.UNKNOWN, "", "", 0, 0, 0),
                     onClick = {}
                 )
