@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.freyapps.hearthstonedeckviewer.common.shimmerBackground
-import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.remote.Card
 import com.freyapps.hearthstonedeckviewer.ui.DeckViewModel
 import com.freyapps.hearthstonedeckviewer.ui.card_dialog.CardDialog
@@ -45,7 +44,7 @@ fun DeckScreen(viewModel: DeckViewModel) {
     ) {
         if (isLoading) {
             LazyColumn {
-                items(30) {
+                items(25) {
                     PlaceholderCardRow()
                 }
             }
@@ -115,7 +114,7 @@ fun TextCardRow(
             style = Typography.body1
         )
     }
-    Divider()
+    Divider(thickness = 1.dp)
 }
 
 @Composable
@@ -123,8 +122,8 @@ fun PlaceholderCardRow() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp)
-            .shimmerBackground(),
+            .shimmerBackground()
+            .height(30.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -133,30 +132,25 @@ fun PlaceholderCardRow() {
         ) {
             Text(
                 modifier = Modifier
-                    .width(50.dp)
-                    .wrapContentSize(Alignment.Center)
-                    .shimmerBackground(),
-                text = "",
+                    .width(50.dp),
+                text = "0",
                 textAlign = TextAlign.Center,
                 style = Typography.body1
             )
             Text(
-                modifier = Modifier.shimmerBackground(),
-                text = "",
+                text = "placeholder card",
                 style = Typography.body1
             )
         }
         Text(
             modifier = Modifier
-                .width(50.dp)
-                .wrapContentSize(Alignment.Center)
-                .shimmerBackground(),
-            text = "",
+                .width(50.dp),
+            text = "1",
             textAlign = TextAlign.Center,
             style = Typography.body1
         )
     }
-    Divider()
+    Divider(thickness = 1.dp)
 }
 
 @Preview

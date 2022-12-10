@@ -177,7 +177,6 @@ fun Tabs(pagerState: PagerState, tabList: List<TabItem>) {
                 text = {
                     Text(
                         text = stringResource(id = tabList[index].title),
-
                         color = if (pagerState.currentPage == index) Color.White else Color.LightGray
                     )
                 },
@@ -281,7 +280,7 @@ private fun DeckList(
 ) {
     if (decks.value.isEmpty()) {
         LazyColumn {
-            items(20) {
+            items(25) {
                 DeckRow(
                     modifier = Modifier.shimmerBackground(),
                     deck = ManacostDeckInfo(HearthstoneClass.UNKNOWN, "", "", 0, 0, 0),
