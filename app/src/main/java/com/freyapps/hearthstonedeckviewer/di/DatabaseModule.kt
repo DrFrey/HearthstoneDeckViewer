@@ -1,7 +1,8 @@
-package com.freyapps.hearthstonedeckviewer.data.storage
+package com.freyapps.hearthstonedeckviewer.di
 
 import android.content.Context
 import androidx.room.Room
+import com.freyapps.hearthstonedeckviewer.data.storage.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

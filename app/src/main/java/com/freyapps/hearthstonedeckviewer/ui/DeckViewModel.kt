@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
-import com.freyapps.hearthstonedeckviewer.data.repository.DecksRepository
 import com.freyapps.hearthstonedeckviewer.data.repository.Result
+import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckrepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeckViewModel @Inject constructor(
-    private val decksRepository: DecksRepository,
+    private val blizzardDeckrepository: BlizzardDeckrepository,
     @ApplicationContext context: Context
 ) : ViewModel() {
 
@@ -40,7 +40,7 @@ class DeckViewModel @Inject constructor(
         Log.d(TAG, "deck code - $code")
         if (!isTokenExpired()) {
             viewModelScope.launch {
-                decksRepository.getBlizzardDeckByCode(
+                blizzardDeckrepository.getBlizzardDeckByCode(
                     token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: "",
                     code = code
                 ).collect { result ->
@@ -61,7 +61,7 @@ class DeckViewModel @Inject constructor(
             }
         } else {
             viewModelScope.launch {
-                decksRepository.refreshBlizzardAccessToken().collect { result ->
+                blizzardDeckrepository.refreshBlizzardAccessToken().collect { result ->
                     when (result) {
                         is Result.Success -> {
                             prefs.edit().also {
@@ -89,7 +89,7 @@ class DeckViewModel @Inject constructor(
         Log.d(TAG, "card slug - $slug")
         if (!isTokenExpired()) {
             viewModelScope.launch {
-                decksRepository.getBlizzardCardBySlug(
+                blizzardDeckrepository.getBlizzardCardBySlug(
                     slug = slug,
                     token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: ""
                 ).collect { result ->
@@ -107,7 +107,7 @@ class DeckViewModel @Inject constructor(
             }
         } else {
             viewModelScope.launch {
-                decksRepository.refreshBlizzardAccessToken().collect { result ->
+                blizzardDeckrepository.refreshBlizzardAccessToken().collect { result ->
                     when (result) {
                         is Result.Success -> {
                             prefs.edit().also {

@@ -1,6 +1,9 @@
-package com.freyapps.hearthstonedeckviewer.data.remote
+package com.freyapps.hearthstonedeckviewer.di
 
 import com.freyapps.hearthstonedeckviewer.BuildConfig
+import com.freyapps.hearthstonedeckviewer.data.remote.BlizzardApiService
+import com.freyapps.hearthstonedeckviewer.data.remote.BlizzardAuthService
+import com.freyapps.hearthstonedeckviewer.data.remote.ManacostApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

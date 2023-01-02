@@ -8,13 +8,14 @@ import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
 import com.freyapps.hearthstonedeckviewer.data.models.remote.AccessDataRemote
 import com.freyapps.hearthstonedeckviewer.data.remote.DataSourceRemote
 import com.freyapps.hearthstonedeckviewer.data.storage.DataSourceLocal
+import com.freyapps.hearthstonedeckviewer.domain.repositories.ManacostDecksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
-class DecksRepositoryImpl(
+class ManacostDecksRepositoryImpl(
     private val dataSourceRemote: DataSourceRemote,
     private val dataSourceLocal: DataSourceLocal
-) : DecksRepository {
+) : ManacostDecksRepository {
 
     override fun localTopDecksByClass(hearthstoneClass: HearthstoneClass) =
         dataSourceLocal.getTopDecksByClass(hearthstoneClass)
@@ -38,51 +39,6 @@ class DecksRepositoryImpl(
             emit(result)
         }
     }
-
-    override suspend fun refreshBlizzardAccessToken(): Flow<Result<AccessDataRemote>> {
-        return flow {
-            emit(dataSourceRemote.getBlizzardAuthToken())
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override suspend fun getBlizzardDeckByCode(
-        token: String,
-        code: String
-    ): Flow<Result<DeckLocal>> {
-        return flow {
-            emit(Result.Success(dataSourceLocal.getDeckById(code)))
-            emit(Result.Loading)
-            val result = dataSourceRemote.getBlizzardDeckByCode(token, code)
-            if (result is Result.Success) {
-                result.data?.let {
-                    dataSourceLocal.insertBlizzardDeck(it)
-                }
-                emit(result)
-            } else {
-                emit(Result.Error(Exception(result.message.toString())))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override suspend fun getBlizzardCardBySlug(
-        slug: String,
-        token: String
-    ): Flow<Result<CardLocal>> {
-        return flow {
-            emit(Result.Success(dataSourceLocal.getCardBySlug(slug)))
-            emit(Result.Loading)
-            val result = dataSourceRemote.getBlizzardCardBySlug(slug, token)
-            if (result is Result.Success) {
-                result.data?.let {
-                    dataSourceLocal.insertBlizzardCard(it)
-                }
-                emit(result)
-            } else {
-                emit(Result.Error(Exception(result.message.toString())))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
 
     companion object {
         private const val TAG = "DecksRepositoryImpl"

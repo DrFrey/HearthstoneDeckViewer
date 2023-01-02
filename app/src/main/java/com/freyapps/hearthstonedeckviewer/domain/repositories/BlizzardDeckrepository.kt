@@ -1,16 +1,12 @@
-package com.freyapps.hearthstonedeckviewer.data.repository
+package com.freyapps.hearthstonedeckviewer.domain.repositories
 
 import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
-import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
-import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
 import com.freyapps.hearthstonedeckviewer.data.models.remote.AccessDataRemote
+import com.freyapps.hearthstonedeckviewer.data.repository.Result
 import kotlinx.coroutines.flow.Flow
 
-interface DecksRepository {
-
-    suspend fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass): Flow<Result<List<ManacostDeckInfo>>?>
-    fun localTopDecksByClass(hearthstoneClass: HearthstoneClass): Flow<List<ManacostDeckInfo>>
+interface BlizzardDeckrepository {
 
     suspend fun refreshBlizzardAccessToken(): Flow<Result<AccessDataRemote>>
     suspend fun getBlizzardDeckByCode(token: String, code: String): Flow<Result<DeckLocal>>
