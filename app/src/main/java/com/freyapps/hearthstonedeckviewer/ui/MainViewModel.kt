@@ -24,6 +24,8 @@ class MainViewModel @Inject constructor(
 
     private val prefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
+    var dkDecks = manacostDecksRepository.localTopDecksByClass(DEATHKNIGHT)
+        private set
     var hunterDecks = manacostDecksRepository.localTopDecksByClass(HUNTER)
         private set
     var warriorDecks = manacostDecksRepository.localTopDecksByClass(WARRIOR)
@@ -62,6 +64,12 @@ class MainViewModel @Inject constructor(
         Log.d(TAG, "updateDecksIfNeeded triggered")
         viewModelScope.launch {
             val currentTime = System.currentTimeMillis()
+
+            if (currentTime - prefs.getLong(
+                    DEATHKNIGHT_DECKS_LAST_UPDATED,
+                    0
+                ) > UPDATE_INTERVAL
+            ) refreshTopDecksByClass(DEATHKNIGHT)
 
             if (currentTime - prefs.getLong(
                     HUNTER_DECKS_LAST_UPDATED,
@@ -137,6 +145,7 @@ class MainViewModel @Inject constructor(
                         val updated = System.currentTimeMillis()
                         prefs.edit().also {
                             when (hearthstoneClass) {
+                                DEATHKNIGHT -> it.putLong(DEATHKNIGHT_DECKS_LAST_UPDATED, updated)
                                 HUNTER -> it.putLong(HUNTER_DECKS_LAST_UPDATED, updated)
                                 MAGE -> it.putLong(MAGE_DECKS_LAST_UPDATED, updated)
                                 WARRIOR -> it.putLong(WARRIOR_DECKS_LAST_UPDATED, updated)
@@ -196,6 +205,7 @@ class MainViewModel @Inject constructor(
 
         private const val UPDATE_INTERVAL = 604_800_000 // 7 days in milliseconds
 
+        private const val DEATHKNIGHT_DECKS_LAST_UPDATED = "deathknight_decks_last_updated"
         private const val HUNTER_DECKS_LAST_UPDATED = "hunter_decks_last_updated"
         private const val MAGE_DECKS_LAST_UPDATED = "mage_decks_last_updated"
         private const val WARRIOR_DECKS_LAST_UPDATED = "warrior_decks_last_updated"

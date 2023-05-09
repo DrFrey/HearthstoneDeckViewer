@@ -24,5 +24,6 @@ enum class HearthstoneClass(val value: String) {
     ROGUE("rogue"),
     WARLOCK("warlock"),
     SHAMAN("shaman"),
+    DEATHKNIGHT("deathknight"),
     UNKNOWN("unknown")
 }

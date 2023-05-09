@@ -10,6 +10,7 @@
     <string name="priest">Priest</string>
     <string name="paladin">Paladin</string>
     <string name="warlock">Warlock</string>
+    <string name="deathknight">Deathknight</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="title_activity_deck">DeckActivity</string>
