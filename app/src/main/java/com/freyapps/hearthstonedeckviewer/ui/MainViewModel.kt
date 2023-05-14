@@ -9,11 +9,13 @@ import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass.*
+import com.freyapps.hearthstonedeckviewer.data.models.local.ManacostDeckInfo
 import com.freyapps.hearthstonedeckviewer.domain.repositories.ManacostDecksRepository
 import com.freyapps.hearthstonedeckviewer.data.repository.Result
 import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,28 +28,12 @@ class MainViewModel @Inject constructor(
 
     private val prefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
-    var dkDecks = manacostDecksRepository.localTopDecksByClass(DEATHKNIGHT)
-        private set
-    var hunterDecks = manacostDecksRepository.localTopDecksByClass(HUNTER)
-        private set
-    var warriorDecks = manacostDecksRepository.localTopDecksByClass(WARRIOR)
-        private set
-    var druidDecks = manacostDecksRepository.localTopDecksByClass(DRUID)
-        private set
-    var rogueDecks = manacostDecksRepository.localTopDecksByClass(ROGUE)
-        private set
-    var paladinDecks = manacostDecksRepository.localTopDecksByClass(PALADIN)
-        private set
-    var priestDecks = manacostDecksRepository.localTopDecksByClass(PRIEST)
-        private set
-    var shamanDecks = manacostDecksRepository.localTopDecksByClass(SHAMAN)
-        private set
-    var dhDecks = manacostDecksRepository.localTopDecksByClass(DEMONHUNTER)
-        private set
-    var warlockDecks = manacostDecksRepository.localTopDecksByClass(WARLOCK)
-        private set
-    var mageDecks = manacostDecksRepository.localTopDecksByClass(MAGE)
-        private set
+    var currentClass by mutableStateOf(DEATHKNIGHT)
+
+    val decks: Flow<List<ManacostDeckInfo>>
+        get() {
+            return manacostDecksRepository.localTopDecksByClass(currentClass)
+        }
 
     var isLoading by mutableStateOf(false)
         private set
@@ -141,7 +127,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass) {
+    private fun refreshTopDecksByClass(hearthstoneClass: HearthstoneClass) {
         viewModelScope.launch {
             isLoading = true
             manacostDecksRepository.refreshTopDecksByClass(hearthstoneClass).collect { result ->
