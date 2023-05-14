@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.freyapps.hearthstonedeckviewer.data.models.local.CardLocal
+import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass.*
 import com.freyapps.hearthstonedeckviewer.domain.repositories.ManacostDecksRepository
@@ -51,6 +53,12 @@ class MainViewModel @Inject constructor(
         private set
 
     var error by mutableStateOf("")
+        private set
+
+    var deck by mutableStateOf<DeckLocal?>(null)
+        private set
+
+    var card by mutableStateOf<CardLocal?>(null)
         private set
 
     init {
@@ -165,6 +173,65 @@ class MainViewModel @Inject constructor(
                 }
             }
             isLoading = false
+        }
+    }
+
+    fun getDeck(code: String) {
+        Log.d(TAG, "deck code - $code")
+        if (!isTokenExpired()) {
+            viewModelScope.launch {
+                blizzardDeckrepository.getBlizzardDeckByCode(
+                    token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: "",
+                    code = code
+                ).collect { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            isLoading = false
+                            deck = result.data
+                        }
+                        is Result.Error -> {
+                            isLoading = false
+                            error = result.message.toString()
+                        }
+                        is Result.Loading -> {
+                            isLoading = true
+                        }
+                    }
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                getBlizzardAccess()
+                getDeck(code)
+            }
+        }
+    }
+
+    fun getCard(slug: String) {
+        Log.d(TAG, "card slug - $slug")
+        if (!isTokenExpired()) {
+            viewModelScope.launch {
+                blizzardDeckrepository.getBlizzardCardBySlug(
+                    slug = slug,
+                    token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: ""
+                ).collect { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            card = result.data
+                        }
+                        is Result.Error -> {
+                            error = result.message.toString()
+                        }
+                        is Result.Loading -> {
+                        }
+                    }
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                getBlizzardAccess()
+                getCard(slug)
+            }
         }
     }
 

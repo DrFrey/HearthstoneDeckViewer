@@ -1,6 +1,5 @@
 package com.freyapps.hearthstonedeckviewer.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,14 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    TopDecksScreen(
-                        viewModel = viewModel,
-                        onClick = { deckCode ->
-                            val intent = Intent(this, DeckActivity::class.java)
-                            intent.putExtra("DECK_ITEM_CODE", deckCode)
-                            startActivity(intent)
-                        }
-                    )
+                    TopDecksScreen(viewModel = viewModel)
                 }
             }
         }

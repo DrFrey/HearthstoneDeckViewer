@@ -18,13 +18,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.freyapps.hearthstonedeckviewer.common.shimmerBackground
 import com.freyapps.hearthstonedeckviewer.data.models.remote.Card
-import com.freyapps.hearthstonedeckviewer.ui.DeckViewModel
+import com.freyapps.hearthstonedeckviewer.ui.MainViewModel
 import com.freyapps.hearthstonedeckviewer.ui.card_dialog.CardDialog
 import com.freyapps.hearthstonedeckviewer.ui.theme.Typography
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DeckScreen(viewModel: DeckViewModel) {
+fun DeckScreen(viewModel: MainViewModel) {
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val error = viewModel.error

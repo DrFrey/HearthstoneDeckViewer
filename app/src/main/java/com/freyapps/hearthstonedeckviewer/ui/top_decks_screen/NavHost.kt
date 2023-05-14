@@ -1,54 +1,88 @@
-package com.freyapps.hearthstonedeckviewer.ui
+package com.freyapps.hearthstonedeckviewer.ui.top_decks_screen
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.freyapps.hearthstonedeckviewer.R
-import com.freyapps.hearthstonedeckviewer.ui.top_decks_screen.*
+import com.freyapps.hearthstonedeckviewer.ui.MainViewModel
+import com.freyapps.hearthstonedeckviewer.ui.deck_screen.DeckScreen
 
 @Composable
 fun NavHost(
     navController: NavHostController,
-    viewModel: MainViewModel,
-    onClick: (String) -> Unit
+    viewModel: MainViewModel
 ) {
     NavHost(
         navController = navController,
         startDestination = ScreensRoute.DeathKnight.name
     ) {
         composable(ScreensRoute.DeathKnight.name) {
-            DeathknightScreen(viewModel, onClick)
+            DeathknightScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Demonhunter.name) {
-            DemonhunterScreen(viewModel, onClick)
+            DemonhunterScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+
+            }
         }
         composable(ScreensRoute.Druid.name) {
-            DruidScreen(viewModel, onClick)
+            DruidScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Hunter.name) {
-            HunterScreen(viewModel, onClick)
+            HunterScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Mage.name) {
-            MageScreen(viewModel, onClick)
+            MageScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Paladin.name) {
-            PaladinScreen(viewModel, onClick)
+            PaladinScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Priest.name) {
-            PriestScreen(viewModel, onClick)
+            PriestScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Rogue.name) {
-            RogueScreen(viewModel, onClick)
+            RogueScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Shaman.name) {
-            DeathknightScreen(viewModel, onClick)
+            DeathknightScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Warlock.name) {
-            WarlockScreen(viewModel, onClick)
+            WarlockScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
         }
         composable(ScreensRoute.Warrior.name) {
-            WarriorScreen(viewModel, onClick)
+            WarriorScreen(viewModel) {
+                onDeckNameClick(it, viewModel, navController)
+            }
+        }
+        composable(ScreensRoute.DeckList.name) {
+            DeckScreen(viewModel)
         }
     }
+}
+
+private fun onDeckNameClick(
+    deckCode: String,
+    viewModel: MainViewModel,
+    navController: NavHostController
+) {
+    viewModel.getDeck(deckCode)
+    navController.navigate(ScreensRoute.DeckList.name)
 }

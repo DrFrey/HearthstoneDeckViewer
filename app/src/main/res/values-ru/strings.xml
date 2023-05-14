@@ -14,4 +14,5 @@
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
     <string name="deathknight">Рыцарь смерти</string>
+    <string name="version">версия %1$s</string>
 </resources>

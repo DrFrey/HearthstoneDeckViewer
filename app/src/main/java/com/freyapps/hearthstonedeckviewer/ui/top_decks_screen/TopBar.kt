@@ -9,18 +9,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBar(
-    titleResId: Int,
+    title: String,
     modifier: Modifier = Modifier,
     openDrawer: () -> Unit
 ) {
     TopAppBar(
         title = {
-            Text(text = stringResource(id = titleResId))
+            Text(text = title)
         },
         navigationIcon = {
             Icon(
