@@ -5,7 +5,7 @@ import com.freyapps.hearthstonedeckviewer.data.models.local.DeckLocal
 import com.freyapps.hearthstonedeckviewer.data.models.remote.AccessDataRemote
 import com.freyapps.hearthstonedeckviewer.data.remote.DataSourceRemote
 import com.freyapps.hearthstonedeckviewer.data.storage.DataSourceLocal
-import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckrepository
+import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 class BlizzardDeckRepositoryImpl(
     private val dataSourceRemote: DataSourceRemote,
     private val dataSourceLocal: DataSourceLocal
-) : BlizzardDeckrepository {
+) : BlizzardDeckRepository {
 
     override suspend fun refreshBlizzardAccessToken(): Flow<Result<AccessDataRemote>> {
         return flow {

@@ -4,7 +4,7 @@ import com.freyapps.hearthstonedeckviewer.data.remote.DataSourceRemote
 import com.freyapps.hearthstonedeckviewer.data.repository.BlizzardDeckRepositoryImpl
 import com.freyapps.hearthstonedeckviewer.data.repository.ManacostDecksRepositoryImpl
 import com.freyapps.hearthstonedeckviewer.data.storage.DataSourceLocal
-import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckrepository
+import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckRepository
 import com.freyapps.hearthstonedeckviewer.domain.repositories.ManacostDecksRepository
 import dagger.Module
 import dagger.Provides
@@ -28,5 +28,5 @@ object RepositoryModule {
     fun provideBlizzardDeckRepository(
         dataSourceRemote: DataSourceRemote,
         dataSourceLocal: DataSourceLocal
-    ): BlizzardDeckrepository = BlizzardDeckRepositoryImpl(dataSourceRemote, dataSourceLocal)
+    ): BlizzardDeckRepository = BlizzardDeckRepositoryImpl(dataSourceRemote, dataSourceLocal)
 }

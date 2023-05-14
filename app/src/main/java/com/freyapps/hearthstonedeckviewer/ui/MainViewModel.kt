@@ -11,7 +11,7 @@ import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass
 import com.freyapps.hearthstonedeckviewer.data.models.local.HearthstoneClass.*
 import com.freyapps.hearthstonedeckviewer.domain.repositories.ManacostDecksRepository
 import com.freyapps.hearthstonedeckviewer.data.repository.Result
-import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckrepository
+import com.freyapps.hearthstonedeckviewer.domain.repositories.BlizzardDeckRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val manacostDecksRepository: ManacostDecksRepository,
-    private val blizzardDeckrepository: BlizzardDeckrepository,
+    private val blizzardDeckRepository: BlizzardDeckRepository,
     @ApplicationContext context: Context
 ) : ViewModel() {
 
@@ -180,7 +180,7 @@ class MainViewModel @Inject constructor(
         Log.d(TAG, "deck code - $code")
         if (!isTokenExpired()) {
             viewModelScope.launch {
-                blizzardDeckrepository.getBlizzardDeckByCode(
+                blizzardDeckRepository.getBlizzardDeckByCode(
                     token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: "",
                     code = code
                 ).collect { result ->
@@ -211,7 +211,7 @@ class MainViewModel @Inject constructor(
         Log.d(TAG, "card slug - $slug")
         if (!isTokenExpired()) {
             viewModelScope.launch {
-                blizzardDeckrepository.getBlizzardCardBySlug(
+                blizzardDeckRepository.getBlizzardCardBySlug(
                     slug = slug,
                     token = prefs.getString(ACCESS_TOKEN_KEY, "") ?: ""
                 ).collect { result ->
@@ -237,7 +237,7 @@ class MainViewModel @Inject constructor(
 
     private suspend fun getBlizzardAccess() {
         if (isTokenExpired()) {
-            blizzardDeckrepository.refreshBlizzardAccessToken().collect { result ->
+            blizzardDeckRepository.refreshBlizzardAccessToken().collect { result ->
                 when (result) {
                     is Result.Success -> {
                         prefs.edit().also {

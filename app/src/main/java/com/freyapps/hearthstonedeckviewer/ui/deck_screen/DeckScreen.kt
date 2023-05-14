@@ -1,6 +1,5 @@
 package com.freyapps.hearthstonedeckviewer.ui.deck_screen
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,12 +20,9 @@ import com.freyapps.hearthstonedeckviewer.ui.MainViewModel
 import com.freyapps.hearthstonedeckviewer.ui.card_dialog.CardDialog
 import com.freyapps.hearthstonedeckviewer.ui.theme.Typography
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DeckScreen(viewModel: MainViewModel) {
 
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
-    val error = viewModel.error
     val isLoading = viewModel.isLoading
 
     val showCardDialog = remember { mutableStateOf(false) }
@@ -38,36 +33,22 @@ fun DeckScreen(viewModel: MainViewModel) {
             showCardDialog.value = it
         }
     }
-
-    Scaffold(
-        scaffoldState = scaffoldState
-    ) {
-        if (isLoading) {
-            LazyColumn {
-                items(25) {
-                    PlaceholderCardRow()
-                }
-            }
-        } else {
-            val cards = viewModel.deck?.cards ?: mapOf()
-            Log.d("DeckScreen", "cards: $cards")
-            val cardsSortedByCost = cards.keys.sortedBy { it.manaCost }
-            LazyColumn {
-                items(cardsSortedByCost) { card ->
-                    TextCardRow(card = card, qty = cards[card] ?: 9999) {
-                        viewModel.getCard(it)
-                        showCardDialog.value = true
-                    }
-                }
+    if (isLoading) {
+        LazyColumn {
+            items(25) {
+                PlaceholderCardRow()
             }
         }
-    }
-
-    LaunchedEffect(key1 = error) {
-        if (error.isNotEmpty()) {
-            when (scaffoldState.snackbarHostState.showSnackbar(error)) {
-                SnackbarResult.Dismissed -> viewModel.clearErrorMessage()
-                else -> {}
+    } else {
+        val cards = viewModel.deck?.cards ?: mapOf()
+        Log.d("DeckScreen", "cards: $cards")
+        val cardsSortedByCost = cards.keys.sortedBy { it.manaCost }
+        LazyColumn {
+            items(cardsSortedByCost) { card ->
+                TextCardRow(card = card, qty = cards[card] ?: 9999) {
+                    viewModel.getCard(it)
+                    showCardDialog.value = true
+                }
             }
         }
     }
